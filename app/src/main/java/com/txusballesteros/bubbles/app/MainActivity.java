@@ -41,6 +41,7 @@ import android.widget.Toast;
 import com.txusballesteros.bubbles.BubbleLayout;
 import com.txusballesteros.bubbles.BubblesManager;
 import com.txusballesteros.bubbles.OnInitializedCallback;
+import com.txusballesteros.bubbles.app.service.DialerStateService;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -49,6 +50,7 @@ import java.net.URL;
 public class MainActivity extends ActionBarActivity {
 
     private BubblesManager bubblesManager;
+    private Intent dialerIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,8 @@ public class MainActivity extends ActionBarActivity {
                 addNewBubble();
             }
         });
+        dialerIntent = new Intent(this, DialerStateService.class);
+        startService(dialerIntent);
     }
 
     private void addNewBubble() {
@@ -134,5 +138,6 @@ public class MainActivity extends ActionBarActivity {
     protected void onDestroy() {
         super.onDestroy();
         bubblesManager.recycle();
+        stopService(dialerIntent);
     }
 }
